@@ -28,7 +28,7 @@ namespace ChatServer
 
                 if (clientsList.ContainsKey(clientName))
                 {
-                    broadcast("x", clientSocket);
+                    broadcast("The username already exist", clientSocket);
                 }
                 else
                 {                    
