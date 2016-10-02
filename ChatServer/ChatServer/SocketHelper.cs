@@ -13,7 +13,7 @@ namespace ChatServer
 
         public static Hashtable clientsList = new Hashtable();
 
-        public static void broadcast(string msg, TcpClient broadcastSocket)
+        public static void Broadcast(string msg, TcpClient broadcastSocket)
         {
             if (broadcastSocket.Connected)
             {
@@ -29,7 +29,7 @@ namespace ChatServer
 
 
 
-        public static void broadcastAll(string msg)
+        public static void BroadcastAll(string msg)
         {
             List<string> tbdClient = new List<string>();
             //foreach dictionary in the hashtable...
@@ -61,18 +61,17 @@ namespace ChatServer
         }
 
 
-        public static string readDataAsString(TcpClient clientSocket)
+        public static string ReadDataAsString(TcpClient clientSocket, string delimeter = null)
         {
             byte[] bytesFrom = new byte[clientSocket.ReceiveBufferSize];
             string dataFromClient = null;
             NetworkStream networkStream = clientSocket.GetStream();
             networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-            dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom).TrimEnd('\0'); //turn byte data to string
-            //dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+            dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom).TrimEnd('\0'); //turn byte data to string. trim the null data
+            if(!string.IsNullOrEmpty(delimeter))
+                dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf(delimeter));            
             return dataFromClient;
         }
-
-
 
     }
 }

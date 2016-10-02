@@ -9,8 +9,6 @@ namespace ChatServer
 {
     class Program
     {
-        //public static Hashtable clientsList = new Hashtable();
-
         static void Main(string[] args)
         {
             TcpListener serverSocket = new TcpListener(8888);
@@ -24,16 +22,16 @@ namespace ChatServer
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
-                string clientName = SocketHelper.readDataAsString(clientSocket);
+                string clientName = SocketHelper.ReadDataAsString(clientSocket);
 
                 if (SocketHelper.clientsList.ContainsKey(clientName))
                 {
-                    SocketHelper.broadcast("The username already exist", clientSocket);
+                    SocketHelper.Broadcast("The username already exist", clientSocket);
                 }
                 else
                 {
                     SocketHelper.clientsList.Add(clientName, clientSocket); //add to hash table - data received , the specific client socket                    
-                    SocketHelper.broadcastAll("--- " + clientName + " Joined chat room ---");
+                    SocketHelper.BroadcastAll("--- " + clientName + " Joined chat room ---");
                     Console.WriteLine(clientName + " Joined chat room ");
                     //start new thread
                     HandleClient client = new HandleClient();

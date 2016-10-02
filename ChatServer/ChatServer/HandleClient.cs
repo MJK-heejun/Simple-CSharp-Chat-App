@@ -25,24 +25,19 @@ namespace ChatServer
         private void doChat()
         {
             int requestCount = 0;
-            byte[] bytesFrom = new byte[clientSocket.ReceiveBufferSize];
             string dataFromClient = null;
             string rCount = null;
-            requestCount = 0;
 
             while ((true))
             {
                 try
                 {
                     requestCount = requestCount + 1;
-                    NetworkStream networkStream = clientSocket.GetStream();
-                    networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-                    dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$$"));
+                    dataFromClient = SocketHelper.ReadDataAsString(clientSocket);
                     Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
                     rCount = Convert.ToString(requestCount);
 
-                    SocketHelper.broadcastAll(clNo + ">> " + dataFromClient);
+                    SocketHelper.BroadcastAll(clNo + ">> " + dataFromClient);
                 }
                 catch (Exception ex)
                 {
