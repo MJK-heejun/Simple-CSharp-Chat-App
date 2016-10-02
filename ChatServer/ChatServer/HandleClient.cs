@@ -27,8 +27,6 @@ namespace ChatServer
             int requestCount = 0;
             byte[] bytesFrom = new byte[clientSocket.ReceiveBufferSize];
             string dataFromClient = null;
-            Byte[] sendBytes = null;
-            string serverResponse = null;
             string rCount = null;
             requestCount = 0;
 
@@ -44,7 +42,7 @@ namespace ChatServer
                     Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
                     rCount = Convert.ToString(requestCount);
 
-                    Program.broadcastAll(clNo + ">> " + dataFromClient);
+                    SocketHelper.broadcastAll(clNo + ">> " + dataFromClient);
                 }
                 catch (Exception ex)
                 {
