@@ -10,13 +10,11 @@ namespace ChatServer
     {
         TcpClient clientSocket;
         string clNo;
-        Hashtable clientsList;
 
-        public void startClient(TcpClient inClientSocket, string clineNo, Hashtable cList)
+        public void startClient(TcpClient inClientSocket, string clineNo)
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
-            this.clientsList = cList;
             //start new thread for the client 'clineNo'
             Thread ctThread = new Thread(doChat);
             ctThread.Start();
@@ -33,11 +31,11 @@ namespace ChatServer
                 try
                 {
                     requestCount = requestCount + 1;
-                    dataFromClient = SocketHelper.ReadDataAsString(clientSocket);
+                    dataFromClient = SocketHelper.ReadDataAsString(clientSocket, "$$");
                     Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
                     rCount = Convert.ToString(requestCount);
 
-                    SocketHelper.BroadcastAll(clNo + ">> " + dataFromClient);
+                    SocketHelper.BroadcastStringAll(clNo + ">> " + dataFromClient);
                 }
                 catch (Exception ex)
                 {

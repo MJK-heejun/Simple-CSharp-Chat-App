@@ -26,16 +26,16 @@ namespace ChatServer
 
                 if (SocketHelper.clientsList.ContainsKey(clientName))
                 {
-                    SocketHelper.Broadcast("The username already exist", clientSocket);
+                    SocketHelper.BroadcastString("The username already exist", clientSocket);
                 }
                 else
                 {
                     SocketHelper.clientsList.Add(clientName, clientSocket); //add to hash table - data received , the specific client socket                    
-                    SocketHelper.BroadcastAll("--- " + clientName + " Joined chat room ---");
+                    SocketHelper.BroadcastStringAll("--- " + clientName + " Joined chat room ---");
                     Console.WriteLine(clientName + " Joined chat room ");
                     //start new thread
                     HandleClient client = new HandleClient();
-                    client.startClient(clientSocket, clientName, SocketHelper.clientsList);
+                    client.startClient(clientSocket, clientName);
                 }
             }
 

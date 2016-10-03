@@ -13,7 +13,7 @@ namespace ChatServer
 
         public static Hashtable clientsList = new Hashtable();
 
-        public static void Broadcast(string msg, TcpClient broadcastSocket)
+        public static void BroadcastString(string msg, TcpClient broadcastSocket)
         {
             if (broadcastSocket.Connected)
             {
@@ -29,11 +29,13 @@ namespace ChatServer
 
 
 
-        public static void BroadcastAll(string msg)
+        public static void BroadcastStringAll(string msg)
         {
             List<string> tbdClient = new List<string>();
+            Hashtable tmpNewList = new Hashtable(clientsList);
+
             //foreach dictionary in the hashtable...
-            foreach (DictionaryEntry Item in clientsList)
+            foreach (DictionaryEntry Item in tmpNewList)
             {
                 TcpClient broadcastSocket;
                 broadcastSocket = (TcpClient)Item.Value;
@@ -50,13 +52,13 @@ namespace ChatServer
                 }
                 else
                 {
-                    tbdClient.Add((string)Item.Key);
+                    Console.WriteLine(Item.Key + " disconnection detected");
+                    tbdClient.Add((string)Item.Key);                    
                 }
 
                 //delete disconnected client socket from hash table
                 foreach (string key in tbdClient)
                     clientsList.Remove(key);
-
             }
         }
 
